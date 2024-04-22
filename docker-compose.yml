@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  safe_app:
+    build:
+      context: ./safe_app
+      dockerfile: ./docker/Dockerfile
+    volumes: 
+      - ./server/:/code/
+    ports:
+      - 8002:8000
+    env_file:
+      - /docker/.docker.env
+    depends_on:
+      - safe_database
+
+  safe_database:
+    image: postgres:16-alpine
+    ports:
+      - 5434:5432
+    env_file:
+      - /docker/.database.env
+    volumes:
+      - safe_postgres_data:/var/lib/postgresql/data/
+
+  unsafe_app:
+    build:
+      context: ./unsafe_app
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./serever/:/code/
+    ports:
+      - 8001:8000
+    env_file:
+      - /docker/.docker.env
+    depends_on:
+      - unsafe_database
+
+  unsafe_database:
+    image: postgres:16-alpine
+    ports:
+      - 5436:5432
+    env_file:
+      - /docker/.database.env
+    volumes:
+      - unsafe_postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  safe_postgres_data:
+  unsafe_postgres_data:

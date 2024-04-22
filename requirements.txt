@@ -1,0 +1,1 @@
+-r /safe_app/docker/requirements.txt && -r /unsafe_app/docker/requirements.txt
