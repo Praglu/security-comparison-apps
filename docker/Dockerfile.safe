@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.12-bullseye
 
 ARG DJANGO_ENV
 
@@ -18,12 +18,13 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /code
 
-COPY requirements /code/requirements
-RUN pip install -r requirements/development.txt
+COPY safe_app/requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY server /code
-COPY bin/entrypoint.dev.sh /bin/
-RUN chmod +x /bin/entrypoint.dev.sh
+COPY safe_app/server /code
+COPY safe_app/manage.py /code
+COPY safe_app/bin/entrypoint.sh /bin/
+RUN chmod +x /bin/entrypoint.sh
 
 EXPOSE 8000
-CMD ["sh", "/bin/entrypoint.dev.sh"]
+CMD ["sh", "/bin/entrypoint.sh"]

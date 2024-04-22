@@ -1,0 +1,6 @@
+TITLE=unsafe_app
+
+DATABASE_URL=postgresql://postgres_user:postgres_password@database:0000/postgres_db
+POSTGRES_USER=postgres_user
+POSTGRES_PASSWORD=postgres_password
+POSTGRES_DB=postgres_db
