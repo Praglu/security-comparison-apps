@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from database import initialize_database
+from users import router as users_router
 
 
 app = FastAPI(
@@ -12,6 +13,8 @@ app = FastAPI(
 initialize_database()
 
 templates = Jinja2Templates(directory='templates')
+
+app.include_router(users_router)
 
 
 @app.get('/', response_class=HTMLResponse)
