@@ -7,5 +7,6 @@ docker images | egrep 'security-comparison-apps-.+' | awk '{ print $1 }' | xargs
 rm safe_app/.docker.env
 
 rm unsafe_app/.docker.env
+rm unsafe_app/server/unsafe_sqlite.db
 
 # docker volume list | egrep 'security-comparison-apps-.+data' | awk '{ print $2 }' | xargs docker volume rm

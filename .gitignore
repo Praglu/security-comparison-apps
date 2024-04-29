@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 .docker.env
+unsafe_sqlite.db
