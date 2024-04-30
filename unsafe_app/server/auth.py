@@ -1,5 +1,5 @@
 import base64
-from fastapi import APIRouter, Depends, Form, Header, HTTPException
+from fastapi import APIRouter, Depends, Form, Header, HTTPException, Request, Response, status
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -7,13 +7,18 @@ from database import get_db
 
 
 router = APIRouter(
-    prefix='login',
+    prefix='/login',
     tags=['login']
 )
 
 
-@router.post('/login/')
-def login_user(email: str = Form(...), password: str = Form(...), db: engine.base.Connection = Depends(get_db)):
+@router.post('/get-token')
+def login_user(
+    response: Response,
+    email: str = Form(...),
+    password: str = Form(...),
+    db: engine.base.Connection = Depends(get_db),
+):
     try:
         result = db.execute('SELECT * FROM users WHERE email=? AND password=?', (email, password))
         user = result.fetchone()
@@ -22,6 +27,7 @@ def login_user(email: str = Form(...), password: str = Form(...), db: engine.bas
             email_bytes = email.encode('ascii')
             email_base64_bytes = base64.b64encode(email_bytes)
             token = email_base64_bytes.decode('ascii')
+            response.headers['X-Token'] = token
             return {'token': token}
         raise HTTPException(status_code=401, detail='Incorrect email or password')
     except SQLAlchemyError as e:

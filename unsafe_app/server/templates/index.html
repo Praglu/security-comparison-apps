@@ -1,29 +1,18 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-  <style>
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
 </head>
 <body>
-    <div class="header">
-      <a href="#default" class="logo">FastAPI - Unsafe App</a>
-      <div class="header-right">
-        <a class="active" href="#home">Home</a>
-      </div>
-    </div>
-    <form method="post">
-      <div>Login</div>
-      <div>
-        <input type="text" name="email" id="email" placeholder="E-mail">
-      </div>
-      <div>
-        <input type="text" name="password" id="password" placeholder="Password">
-      </div>
-      <div>
-        <button type="submit">Login</button>
-      </div>
-      <div>
-        <a href="/forget-password">Forget password?</a>
-      </div>
+    <h2>Login</h2>
+    <form action="/login/get-token" method="post">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Submit</button>
     </form>
-  </body>
+</body>
 </html>
