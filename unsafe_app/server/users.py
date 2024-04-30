@@ -38,6 +38,7 @@ def list_users(db: engine.base.Connection = Depends(get_db)):
     try:
         result = db.execute('SELECT * FROM users', ())
         users = result.fetchall()
+
         if not users:
             raise HTTPException(status_code=404, detail='No users in the database')
         return users
@@ -50,6 +51,7 @@ def retrieve_user(user_id: int, db: engine.base.Connection = Depends(get_db)):
     try:
         result = db.execute('SELECT * FROM users WHERE id=?', (user_id,))
         user = result.fetchone()
+
         if not user:
             raise HTTPException(status_code=404, detail='User not found')
         return user
