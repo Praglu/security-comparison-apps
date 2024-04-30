@@ -24,3 +24,10 @@ def index(request: Request):
     return templates.TemplateResponse(
         request=request, name='index.html', context={},
     )
+
+
+@app.get('/sign-up', response_class=HTMLResponse)
+def sign_up(request: Request):
+    return templates.TemplateResponse(
+        request=request, name='sign_up.html', context={},
+    )

@@ -1,5 +1,5 @@
 import sqlite3
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Form, HTTPException
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -14,12 +14,12 @@ router = APIRouter(
 
 @router.post('/')
 def create_user(
-    email: str,
-    password: str,
-    first_name: str,
-    last_name: str,
-    pesel: float,
-    phone: int,
+    email: str = Form(...),
+    password: str = Form(...),
+    first_name: str = Form(...),
+    last_name: str = Form(...),
+    pesel: float = Form(...),
+    phone: int = Form(...),
     db: sqlite3.Connection = Depends(get_db)
 ):
     try:
