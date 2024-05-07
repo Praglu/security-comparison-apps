@@ -1,5 +1,7 @@
 import base64
-from fastapi import APIRouter, Depends, Form, Header, HTTPException, Request, Response, status
+from fastapi import APIRouter, Cookie, Depends, Form, Header, HTTPException, Response, status
+from fastapi.responses import RedirectResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -10,6 +12,9 @@ router = APIRouter(
     prefix='/login',
     tags=['login']
 )
+
+
+templates = Jinja2Templates(directory='templates')
 
 
 @router.post('/get-token')
@@ -27,8 +32,9 @@ def login_user(
             email_bytes = email.encode('ascii')
             email_base64_bytes = base64.b64encode(email_bytes)
             token = email_base64_bytes.decode('ascii')
-            response.headers['X-Token'] = token
-            return {'token': token}
+            response = RedirectResponse(url='/users/user-info', status_code=status.HTTP_302_FOUND)
+            response.set_cookie(key='token', value=token)
+            return response
         raise HTTPException(status_code=401, detail='Incorrect email or password')
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail='Error logging in user: ' + str(e))

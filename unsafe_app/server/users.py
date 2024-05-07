@@ -1,5 +1,8 @@
+import base64
 import sqlite3
-from fastapi import APIRouter, Depends, Form, HTTPException
+from fastapi import APIRouter, Cookie, Depends, Form, HTTPException, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -10,6 +13,9 @@ router = APIRouter(
     prefix='/users',
     tags=['users']
 )
+
+
+templates = Jinja2Templates(directory='templates')
 
 
 @router.post('/')
@@ -57,3 +63,33 @@ def retrieve_user(user_id, db: engine.base.Connection = Depends(get_db)):
         return user
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail='Error retrieving user: ' + str(e))
+
+
+@router.get('/user-info', response_class=HTMLResponse)
+def user_info(
+    request: Request,
+    token: str = Cookie(...),
+    db: engine.base.Connection = Depends(get_db),
+):
+    if token is None:
+        raise HTTPException(status_code=401, detail='Unauthorized')
+    
+    try:
+        token_base64_bytes = token.encode('ascii')
+        email_bytes = base64.b64decode(token_base64_bytes)
+        email = email_bytes.decode('ascii')
+
+        result = db.execute('SELECT * FROM users WHERE email=?', (email,))
+        user = result.fetchone()
+
+        if not user:
+            raise HTTPException(status_code=401, detail='Invalid token')
+        return templates.TemplateResponse(
+            request=request,
+            name='user-info.html',
+            context={
+                'email': email,
+            },
+        )
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail='Error while trying to find user: ' + str(e))
