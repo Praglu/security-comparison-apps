@@ -20,7 +20,7 @@ def login_user(
     db: engine.base.Connection = Depends(get_db),
 ):
     try:
-        result = db.execute('SELECT * FROM users WHERE email=? AND password=?', (email, password))
+        result = db.execute(f"SELECT * FROM users WHERE email = '{email}' AND password = '{password}'")
         user = result.fetchone()
 
         if user:

@@ -36,7 +36,7 @@ def create_user(
 @router.get('/')
 def list_users(db: engine.base.Connection = Depends(get_db)):
     try:
-        result = db.execute('SELECT * FROM users', ())
+        result = db.execute("SELECT * FROM users")
         users = result.fetchall()
 
         if not users:
@@ -46,10 +46,10 @@ def list_users(db: engine.base.Connection = Depends(get_db)):
         raise HTTPException(status_code=500, detail='Error listing users: ' + str(e))
 
 
-@router.get('/{user_id}')
-def retrieve_user(user_id: int, db: engine.base.Connection = Depends(get_db)):
+@router.get('/user')
+def retrieve_user(user_id, db: engine.base.Connection = Depends(get_db)):
     try:
-        result = db.execute('SELECT * FROM users WHERE id=?', (user_id,))
+        result = db.execute(f"SELECT * FROM users WHERE id='{user_id}'")
         user = result.fetchone()
 
         if not user:
