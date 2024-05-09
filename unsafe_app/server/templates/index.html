@@ -7,12 +7,17 @@
 </head>
 <body>
     <h2>Login</h2>
-    <form action="/login/get-token" method="post">
+    <form action="/auth/get-token" method="post">
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br>
+
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br>
+
         <button type="submit">Submit</button>
     </form>
+
+    <h3>No account?</h3>
+    <a href="/sign-up">Sign up here!</a>
 </body>
 </html>

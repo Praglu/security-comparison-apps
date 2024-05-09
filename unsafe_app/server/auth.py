@@ -1,5 +1,5 @@
 import base64
-from fastapi import APIRouter, Cookie, Depends, Form, Header, HTTPException, Response, status
+from fastapi import APIRouter, Cookie, Depends, Form, Header, HTTPException,Request, Response, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import engine
@@ -9,8 +9,8 @@ from database import get_db
 
 
 router = APIRouter(
-    prefix='/login',
-    tags=['login']
+    prefix='/auth',
+    tags=['auth']
 )
 
 
@@ -38,6 +38,13 @@ def login_user(
         raise HTTPException(status_code=401, detail='Incorrect email or password')
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail='Error logging in user: ' + str(e))
+
+
+@router.get('/logout')
+def logout(response: Response):
+    response = RedirectResponse(url='/', status_code=status.HTTP_302_FOUND)
+    response.delete_cookie(key='token')
+    return response
 
 
 def get_current_user(token: str = Header(...), db: engine.base.Connection = Depends(get_db)):

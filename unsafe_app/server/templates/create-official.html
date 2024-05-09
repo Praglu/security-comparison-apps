@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Official</title>
+</head>
+<body>
+    <h2>Create a new Official</h2>
+    <form action="/officials/" method="post">
+        <label for="user_first_name">Your First Name:</label><br>
+        <input type="text" id="user_first_name" name="user_first_name" required><br>
+
+        <label for="user_last_name">Your Last Name:</label><br>
+        <input type="text" id="user_last_name" name="user_last_name" required><br>
+
+        <label for="description">Description:</label><br>
+        <textarea type="text" id="description" name="description" required></textarea><br>
+
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" required><br>
+        <h3></h3>
+        <button type="submit">Submit</button>
+    </form>
+    <h3></h3>
+    <a href="/users/user-info">Go back to User Info</a>
+</body>
+</html>

@@ -84,11 +84,25 @@ def user_info(
 
         if not user:
             raise HTTPException(status_code=401, detail='Invalid token')
+        
+        user_transfers_result = db.execute('SELECT * FROM transfers WHERE user_id=?', (user[0],))
+        user_transfers = user_transfers_result.fetchall()
+
+        user_officials_result = db.execute('SELECT * FROM officials WHERE user_id=?', (user[0],))
+        user_officials = user_officials_result.fetchall()
+
         return templates.TemplateResponse(
             request=request,
             name='user-info.html',
             context={
-                'email': email,
+                'id': user[0],
+                'email': user[1],
+                'first_name': user[3],
+                'last_name': user[4],
+                'pesel': user[5],
+                'phone': user[6],
+                'transfers': user_transfers,
+                'officials': user_officials,
             },
         )
     except SQLAlchemyError as e:
