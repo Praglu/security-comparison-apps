@@ -16,4 +16,4 @@ def login_function(request):
 
 def logout_function(request):
     logout(request)
-    return redirect('/user/index')
+    return redirect('/')

@@ -11,36 +11,39 @@
     }
 </style>
 <body>
-    <a href="/auth/logout">Logout</a>
+    <a href='/auth/logout'>Logout</a>
     <h1> User Info </h1>
     <table>
         <tr>
             <td>ID</td>
-            <td>{{ id }}</td>
+            <td>{{ user.id }}</td>
         </tr>
         <tr>
-            <td>E-mail</td>
-            <td>{{ email }}</td>
+            <td>Username</td>
+            <td>{{ user.username }}</td>
         </tr>
         <tr>
             <td>First Name</td>
-            <td>{{ first_name }}</td>
+            <td>{{ user.first_name }}</td>
         </tr>
         <tr>
             <td>Last Name</td>
-            <td>{{ last_name }}</td>
+            <td>{{ user.last_name }}</td>
         </tr>
         <tr>
             <td>PESEL</td>
-            <td>{{ pesel }}</td>
+            <td>97123499510</td>
         </tr>
         <tr>
             <td>Phone</td>
-            <td>{{ phone }}</td>
+            <td>774652012</td>
         </tr>
     </table>
 
-    <h2>Transfers made by User {{email}}</h2>
+    <h2>Transfers made by User
+        <b>{{user.username}}</b>
+    </h2>
+    {% comment %}
     <table>
         <tr>
             <th>Title</th>
@@ -62,7 +65,9 @@
     <h3>Create a new Transfer</h3>
     <a href="/create-transfer">Click here</a>
 
-    <h2>Officials made by User {{email}}</h2>
+    <h2>Officials made by User
+        <b>{{user.username}}</b>
+    </h2>
     <table>
         <tr>
             <th>Description</th>
@@ -78,5 +83,6 @@
 
     <h3>Create a new Official</h3>
     <a href="/create-official">Click here</a>
+    {% endcomment %}
 </body>
 </html>
