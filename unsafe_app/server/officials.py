@@ -1,7 +1,7 @@
 import base64
 import sqlite3
 from fastapi import APIRouter, Cookie, Depends, Form, HTTPException, Request
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -14,10 +14,7 @@ router = APIRouter(
 )
 
 
-templates = Jinja2Templates(directory='templates')
-
-
-@router.post('/')
+@router.post('/', response_class=HTMLResponse)
 def create_official(
     request: Request,
     user_first_name: str = Form(...),
@@ -55,13 +52,24 @@ def create_official(
             (user_id, user_email, user_first_name, user_last_name, description, date),
         )
         db.commit()
-        return templates.TemplateResponse(
-            request=request,
-            name='successful-official.html',
-            context={
-                'message': 'Official created successfully!',
-            }
-        )
+        return f'''
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Official Created!</title>
+            </head>
+            <body>
+                <h1>
+                  Official with the description
+                  <p style="color: aquamarine;"> { description } </p> 
+                  created successfully!
+                </h1>
+                <a href="/users/user-info">Go back to User Info</a>
+            </body>
+            </html>
+        '''
     except SQLAlchemyError as e:
         return HTTPException(status_code=500, detail='Error creating official: ' + str(e))
 

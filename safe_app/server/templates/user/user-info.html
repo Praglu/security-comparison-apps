@@ -41,9 +41,8 @@
     </table>
 
     <h2>Transfers made by User
-        <b>{{user.username}}</b>
+        <b style="color: blue;">{{user.username}}</b>
     </h2>
-    {% comment %}
     <table>
         <tr>
             <th>Title</th>
@@ -54,19 +53,20 @@
         </tr>
         {% for transfer in transfers %}
         <tr>
-            <td>{{ transfer[2] }}</td>
-            <td>{{ transfer[3] }}</td>
-            <td>{{ transfer[4] }}</td>
-            <td>{{ transfer[5] }}</td>
-            <td>{{ transfer[6] }}</td>
+            <td>{{ transfer.title }}</td>
+            <td>{{ transfer.account_number }}</td>
+            <td>{{ transfer.amount }}</td>
+            <td>{{ transfer.reciever_info }}</td>
+            <td>{{ transfer.date }}</td>
         </tr>
         {% endfor %}
     </table>
     <h3>Create a new Transfer</h3>
-    <a href="/create-transfer">Click here</a>
+    <a href="/transfer/create-transfer">Click here</a>
 
-    <h2>Officials made by User
-        <b>{{user.username}}</b>
+    <h2>
+        Officials made by User
+        <b style="color: blue;">{{user.username}}</b>
     </h2>
     <table>
         <tr>
@@ -75,14 +75,13 @@
         </tr>
         {% for official in officials %}
         <tr>
-            <td>{{ official[4] }}</td>
-            <td>{{ official[5] }}</td>
+            <td>{{ official.description }}</td>
+            <td>{{ official.date }}</td>
         </tr>
         {% endfor %}
     </table>
 
     <h3>Create a new Official</h3>
-    <a href="/create-official">Click here</a>
-    {% endcomment %}
+    <a href="/official/create-official">Click here</a>
 </body>
 </html>

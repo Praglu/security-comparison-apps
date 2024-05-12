@@ -1,8 +1,7 @@
 import base64
 import sqlite3
-from fastapi import APIRouter, Cookie, Depends, Form, HTTPException, Request
+from fastapi import APIRouter, Cookie, Depends, Form, HTTPException
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy import engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -15,12 +14,8 @@ router = APIRouter(
 )
 
 
-templates = Jinja2Templates(directory='templates')
-
-
 @router.post('/', response_class=HTMLResponse)
 def create_transfer(
-    request: Request,
     title: str = Form(...),
     account_number: str = Form(...),
     amount: str = Form(...),
@@ -49,13 +44,24 @@ def create_transfer(
             (user_id, title, account_number, amount, reciever_info, date),
         )
         db.commit()
-        return templates.TemplateResponse(
-            request=request,
-            name='successful-transfer.html',
-            context={
-                'message': 'Transfer created successfully!',
-            }
-        )
+        return f'''
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Transfer Created!</title>
+            </head>
+            <body>
+                <h1>
+                  Transfer with the title
+                  <p style="color: aquamarine;"> { title } </p> 
+                  created successfully!
+                </h1>
+                <a href="/users/user-info">Go back to User Info</a>
+            </body>
+            </html>
+        '''
     except SQLAlchemyError as e:
         return HTTPException(status_code=500, detail='Error creating transfer: ' + str(e))
 

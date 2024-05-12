@@ -20,6 +20,7 @@ templates = Jinja2Templates(directory='templates')
 
 @router.post('/')
 def create_user(
+    request: Request,
     email: str = Form(...),
     password: str = Form(...),
     first_name: str = Form(...),
@@ -34,7 +35,7 @@ def create_user(
             (email, password, first_name, last_name, pesel, phone),
         )
         db.commit()
-        return {'message': 'User created successfully'}
+        return templates.TemplateResponse(request=request, name='created-user.html', context={'email': email})
     except SQLAlchemyError as e:
         return HTTPException(status_code=500, detail='Error creating user: ' + str(e))
 

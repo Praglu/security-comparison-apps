@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from server.official.models import Official
+
+
+admin.site.register(Official)

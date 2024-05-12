@@ -41,7 +41,7 @@
     </table>
 
     <h2>Transfers made by User
-        <b>{{email}}</b>
+        <b style="color: blue;">{{email}}</b>
     </h2>
     <table>
         <tr>
@@ -65,7 +65,7 @@
     <a href="/create-transfer">Click here</a>
 
     <h2>Officials made by User
-        <b>{{email}}</b>
+        <b style="color: blue;">{{email}}</b>
     </h2>
     <table>
         <tr>
@@ -74,8 +74,8 @@
         </tr>
         {% for official in officials %}
         <tr>
-            <td>{{ official[4] }}</td>
             <td>{{ official[5] }}</td>
+            <td>{{ official[6] }}</td>
         </tr>
         {% endfor %}
     </table>

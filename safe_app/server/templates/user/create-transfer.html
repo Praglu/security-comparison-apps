@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Create a new Transfer</h2>
-    <form action="/transfers/" method="post">
+    <form action="/transfer/post-transfer" method="post">{% csrf_token %}
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br>
 
@@ -26,6 +26,6 @@
         <button type="submit">Submit</button>
     </form>
     <h3></h3>
-    <a href="/users/user-info">Go back to User Info</a>
+    <a href="/user/user-info">Go back to User Info</a>
 </body>
 </html>

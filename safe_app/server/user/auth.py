@@ -11,7 +11,7 @@ def login_function(request):
     if user is not None:
         login(request, user)
         return redirect('/user/user-info')
-    return HttpResponse(status_code=401)
+    return HttpResponse(status=401)
 
 
 def logout_function(request):

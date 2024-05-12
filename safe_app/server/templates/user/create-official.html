@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Create a new Official</h2>
-    <form action="/officials/" method="post">
+    <form action="/official/post-official" method="post">{% csrf_token %}
         <label for="user_first_name">Your First Name:</label><br>
         <input type="text" id="user_first_name" name="user_first_name" required><br>
 
@@ -23,6 +23,6 @@
         <button type="submit">Submit</button>
     </form>
     <h3></h3>
-    <a href="/users/user-info">Go back to User Info</a>
+    <a href="/user/user-info">Go back to User Info</a>
 </body>
 </html>
